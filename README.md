@@ -1,4 +1,4 @@
-DCD
+# DCD - Dating Compatibility Database
 
 Group Members: Forum Modi, Rebecca Harris, Allison Russell, Mark Boutros.
 
