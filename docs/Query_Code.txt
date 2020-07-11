@@ -1,0 +1,161 @@
+createdb DCD
+psql DCD
+
+CREATE TABLE USER_ACCOUNT (
+User_ID SERIAL NOT NULL,
+FName VARCHAR(15) NOT NULL,
+Email VARCHAR(30) NOT NULL,
+Pwd VARCHAR(15) NOT NULL,
+Age CHAR(2) NOT NULL,
+Astrological_Sign INT NOT NULL,
+MB_type INT NOT NULL,
+City VARCHAR(30) NOT NULL,
+State CHAR(2) NOT NULL,
+Gender CHAR(1) NOT NULL,
+Description VARCHAR(90),
+Gender_Pref CHAR(1) NOT NULL,
+Age_Min INT NOT NULL,
+Age_Max INT NOT NULL,
+PRIMARY KEY(User_ID)
+);
+
+CREATE TABLE POTENTIAL_MATCH (
+User_ID SERIAL NOT NULL,
+PM_ID SERIAL NOT NULL,
+Votes BOOLEAN,
+Match_Rating INTEGER,
+PRIMARY KEY(User_ID, PM_ID),
+FOREIGN KEY(User_ID) REFERENCES USER_ACCOUNT(User_ID),
+FOREIGN KEY(PM_ID) REFERENCES USER_ACCOUNT(User_ID)
+);
+
+CREATE TABLE MBTI_REF (
+MBTI_Number INT,
+MBTI_Name VARCHAR(20),
+PRIMARY KEY(MBTI_Number)
+);
+
+CREATE TABLE SIGN_REF(
+Sign_Number INT, 
+Sign_Name VARCHAR(20),
+PRIMARY KEY(Sign_Number)
+);
+
+
+CREATE TABLE ASTRO_COMPAT (
+Astrological_Sign INT NOT NULL,
+Aries INT NOT NULL,
+Taurus INT NOT NULL,
+Gemini INT NOT NULL,
+Cancer INT NOT NULL,
+Leo INT NOT NULL,
+Virgo INT NOT NULL,
+Libra INT NOT NULL,
+Scorpio INT NOT NULL,
+Sagittarius INT NOT NULL,
+Capricorn INT NOT NULL,
+Aquarius INT NOT NULL,
+Pisces INT NOT NULL,
+PRIMARY KEY(Astrological_Sign)
+);
+
+CREATE TABLE MBTI_COMPAT (
+Personality_Type INT NOT NULL,
+INFP INT NOT NULL,
+ENFP INT NOT NULL,
+INFJ INT NOT NULL,
+ENFJ INT NOT NULL,
+INTJ INT NOT NULL,
+ENTJ INT NOT NULL,
+INTP INT NOT NULL,
+ENTP INT NOT NULL,
+ISFP INT NOT NULL,
+ESFP INT NOT NULL,
+ISTP INT NOT NULL,
+ESTP INT NOT NULL,
+ISFJ INT  NOT NULL,
+ESFJ INT NOT NULL,
+ISTJ INT NOT NULL,
+ESTJ INT NOT NULL,
+PRIMARY KEY(Personality_Type )
+);
+
+INSERT INTO USER_ACCOUNT (User_ID, FName, Email, Pwd, Age, Astrological_Sign, MB_type, City, State, Gender, Description, Gender_Pref, Age_Min, Age_Max) 
+VALUES
+(1, 'Bob','bob@bob.com', 'bobdabest', 27, 1, 7, 'Ewing', 'NJ', 'm', 'I like cars! Like me if you do!', 'f', 25, 35),
+(2, 'Jaime', 'Jdous@gmail.com', '12345!', 21, 8, 8, 'San Francisco', 'CA', 'n', 'If you like water then you already like 72% of me', 'a', 18, 30),
+(3,'Alice', 'alice@gmail.com', '12234', 18, 5, 11, 'NYC', 'NY', 'f', 'Computer Science Student at TCNJ Class of 2021', 'a', 18, 30),
+(4, 'Giuditta', 'gigigirl@aol.com', 'password', 36, 2, 9, 'Chicago', 'IL', 'f', 'Not looking for anything serious', 'a', 32, 40),
+(5, 'Lokua', 'kuku@verizon.net', 'qwerty', 30, 7, 4, 'Los Angeles', 'CA', 'm', 'Netlix and Chill?', 'f', 23, 	32),
+(6, 'Anatoliy', 'toliyboi@gmail.com', 'tweety', 22, 3, 13, 'Bakersfield', 'CA', 'm', 'COVID-free since 98', 'a',	20, 28),
+(7, 'Ingeborg', 'daborgs@gmail.com', 'l4k3rz', 18, 10, 3, 'Seattle', 'WA', 'f', 'Looking to spread love, not germs',	'f', 18, 22),
+(8, 'Wolodymyr', 'wooly!@wow.com', 'bballboy', 23, 5, 0, 'Mesa', 'AZ', 'm', 'Hannah Montana says that nobody is perfect, but yet, here I am!', 'm', 22, 32),
+(9, 'Aristotle', 'stotstud@yahoo.com', 'turtlez', 19, 7, 10, 'Charlotte', 'NC', 'n', 'I like long walks at the beach', 'a', 18, 25),
+(10, 'Brandi', 'bavery@hotmail.com', 'ih8math', 39, 6, 2, 'Boston', 'MA', 'f', 'Any guy who likes romcoms will find his way to my heart', 'm', 30, 40),
+(11, 'Ber', 'berber@bellsouth.net', 'c00lguyz', 18, 1, 5, 'Hartford', 'CT', 'm', 'Looking for a serious relationship', 'm', 18, 23),
+(12, 'Oddbjorn', 'oddity@earthlink.net', 'b33r!', 24, 4, 8, 'Dallas', 'TX', 'm', 'Food is the way to my heart', 'a', 20, 28),
+(13, 'Lakisha',	'Lakish666@comcast.net', 'lakiraki', 19, 10, 11, 'Houston', 'TX', 'f', 'FarmersOnly didnt work out so Im on here?', 'a', 18, 24),
+(14, 'Doroteja', 'doritoes41@sbcglobal.net', 'doritoz!!', 21, 9, 9, 'Tucson', 'AZ', 'f', 'This isnt my first rodeo', 'a', 20, 30),
+(15, 'Kumari', 'krazykroc@yahoo.com', 'ilovemymom', 26, 6, 2, 'Virginia Beach', 'VA', 'm', 'The only time I set the bar low is for limbo', 'a', 22, 35),
+(16, 'Zaida', 'zeeeeeee@gmail.com', 'Zaida2001', 23, 11, 1, 'Sacramento', 'CA', 'f', 'Sometimes when my neighbor is gone, I roll around in her garden and pretend Im a carrot', 'f',18, 27),
+(17, 'Noach', 'noachtheroach@gmail.com', 'kittycute', 22, 2, 0, 'Philadelphia', 'PA' , 'm', 'RIP Club Penguin, you raised me when my parents didnt want to', 'm', 20, 26),
+(18,'Randolph', 'randychase@aol.com', 'lucky_09', 26, 12, 11, 'Princeton', 'NJ', 'm', 'I like playing the ukulele and eating tacos', 'a', 22, 30),
+(19, 'Celeste', 'celestey156@hotmail.com', 'zigzagmag', 35, 4, 12, 'Albuquerque', 'NM', 'n',	'I like dogs more than people!', 'a', 25, 40),
+(20, 'Apostolos', 'apastalos@aol.com', 'pasta!', 30, 11, 8, 'Baton Rouge', 'LA', 'm',	'Never gonna give you up, never gonna let you down, never gonna turn around and desert you', 'f', 28, 40);
+
+
+INSERT INTO ASTRO_COMPAT (Astrological_Sign, Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces) 
+VALUES
+(1, 25, 20, 40, 20, 50, 30, 40, 25, 45,25, 40, 30),
+(2, 20, 30, 15, 50, 35, 45, 30, 45, 15, 50, 30, 40),
+(3, 40,15, 30, 30, 45, 35, 45, 15, 30, 35, 40, 25),
+(4, 20, 50, 30, 35, 15, 45, 20, 45, 25, 40 ,15, 50),
+(5, 50, 35, 45, 35, 20, 15, 50, 30, 45, 15, 35, 20),
+(6, 30, 45, 35, 45, 20, 35, 35, 45, 25, 45, 15, 45),
+(7, 45, 35, 50, 20, 45, 35, 40, 20, 35, 30, 45, 45),
+(8, 25, 45, 15, 50, 25, 45, 20, 40, 15, 45, 35, 50),
+(9, 50, 15, 30, 25, 45, 25, 35, 15, 25, 30, 45, 30),
+(10, 25, 50, 35, 40, 20, 45, 30, 45, 30, 40, 35, 45),
+(11, 40, 30, 45, 15, 35, 15,45, 35, 45, 35, 25, 25),
+(12, 35, 45, 25, 50, 20, 45, 45, 50, 30, 45, 25, 30);
+
+INSERT INTO MBTI_COMPAT (, INFP, ENFP, INFJ, ENFJ, INTJ, ENTJ, INTP,	ENTP,	ISFP, ESFP, ISTP, ESTP, ISFJ, ESFJ, ISTJ,	ESTJ) 
+VALUES
+(1,40, 40, 40, 50, 40, 50, 40, 40, 10, 10, 10, 10, 10, 10, 10,10),
+(2,40, 40, 50, 40, 50, 40, 40, 50, 10, 10, 10, 10, 10, 10, 10, 10),
+(3, 40, 50, 40, 40, 40, 40, 40, 50, 10, 10, 10, 10, 10, 10, 10, 10),
+(4, 50, 40, 40, 40, 40, 40, 40, 40, 50, 10, 10, 10, 10, 10, 10, 10),
+(5, 40, 50, 40, 40, 40, 40, 40, 50, 30, 30, 30,	30, 20,	20, 20, 20),
+(6, 50, 40, 40, 40, 40, 40, 50, 40, 30, 30, 30, 30, 30, 30, 30, 30),		
+(7, 40, 40, 40, 40, 40, 50, 40, 40, 30, 30, 30, 30, 20, 20, 20, 50),
+(8, 40, 40, 50, 40, 50, 40, 40, 40, 30, 30, 30, 30, 20, 20, 20, 20),
+(9, 10, 10, 10, 50, 30, 30, 30, 30, 20, 20, 20, 20, 30, 50, 30, 50),
+(10, 10, 10, 10, 10, 30, 30, 30, 30, 20, 20, 20, 20, 50, 30, 50, 30),
+(11, 10, 10, 10, 10, 30, 30, 30, 30, 20, 20, 20, 20, 30, 50, 30, 50),
+(12,10, 10, 10, 10, 30, 30, 20, 20, 20, 20, 20, 20, 50, 30, 50, 30),
+(13, 10, 10, 10	, 10, 20, 30, 20, 20, 30, 50, 30,  50, 40, 40, 40, 40),
+(14, 10, 10, 10	, 10, 20, 30, 20, 20, 50, 30, 50, 30, 40, 40, 40, 40),
+(15, 10, 10, 10	, 10, 20, 30, 20, 20, 30, 50, 30, 50, 40, 40, 40, 40),
+(16, 10, 10, 10, 10, 20, 30, 50, 20, 50, 30, 50, 30, 40, 40, 40,40);
+
+CREATE TABLE ALL_USERS(
+User_ID SERIAL NOT NULL,
+PRIMARY KEY(User_ID)
+);
+
+INSERT INTO ALL_USERS(User_ID)
+(SELECT User_ID
+FROM USER_ACCOUNT);
+
+INSERT INTO POTENTIAL_MATCH(USER_ID, PM_ID, Votes, Match_Rating)
+(SELECT A.User_ID, U.User_ID, NULL, NULL
+FROM USER_ACCOUNT as U
+CROSS JOIN
+ALL_USERS as A
+WHERE A.User_ID != U.User_ID);
+
+INSERT INTO SIGN_REF(Sign_Number, Sign_Name) VALUES 
+(1, 'Aries'), (2, 'Taurus'), (3, 'Gemini'), (4, 'Cancer'),(5, 'Leo'), (6, 'Virgo'), (7, 'Libra'), (8, 'Scorpio'), (9, 'Sagittarius'), (10, 'Capricorn'), (11, 'Aquarius'), (12, 'Pisces');
+
+INSERT INTO MBTI_REF(MBTI_Number, MBTI_Name) VALUES (1, 'INFP'), (2, 'ENFP'),
+(3, 'INFJ'), (4, 'ENFJ'), (5, 'INTJ'), (6, 'ENTJ'),(7, 'INTP'), (8, 'ENTP'), (9, 'ISFP'), (10, 'ESFP'), (11, 'ISTP'), ( 12, 'ESTP'), (13, 'ISFJ'), (14, 'ESFJ'), (15, 'ISTJ'), (16, 'ESTJ');
