@@ -199,17 +199,19 @@ def handle_data():
                 #adds two ratings together
                 MATCH_RATING = MBTI_MATCH_RATING[0] + ASTRO_MATCH_RATING[0]
 	        
-	        #Trying to update the database but deletes entry instead for some reason???
-                #connectnone("UPDATE POTENTIAL_MATCH SET MATCH_RATING =" + str(MATCH_RATING) + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+	        #Trying to update the database
+                connectnone("UPDATE POTENTIAL_MATCH SET MATCH_RATING =" + str(MATCH_RATING) + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+                PM = connect("SELECT * FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\'") 
 
 
     if (len(user) == 0): 
     	user = ['Not a valid user']
+    	PM = ['None']
     	astro_sign = "invalid"
     	pers_type = "invalid"
     	userID = 0
     	
-    return render_template('user-matches.html', username=username, password=password, astro_sign = astro_sign, pers_type = pers_type, user=user)
+    return render_template('user-matches.html', username=username, password=password, astro_sign = astro_sign, pers_type = pers_type, user=user, PM=PM)
 
 if __name__ == '__main__':
     app.run(debug = True)
