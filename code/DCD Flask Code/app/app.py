@@ -246,7 +246,7 @@ def handle_data():
 
 @app.route('/form-handler2', methods=['POST'])
 def handle_data2():
-    return render_template('user-matches.html')
+    return render_template('potential-matches.html')
 
 if __name__ == '__main__':
     app.run(debug = True)
