@@ -135,6 +135,9 @@ def connectnone(query):
         
         # execute a query using fetchall()
         cur.execute(query)
+        
+        #commit changes to database
+        conn.commit()
 
        # close the communication with the PostgreSQL
         cur.close()
