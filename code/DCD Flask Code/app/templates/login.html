@@ -1,38 +1,102 @@
 <!-- /templates/login.html-->
 
-<html>
-    <head>
-        <title>Flask Sample Input Form</title>
-    </head>
-    <body>
-	<h3>Welcome to the Dating Compatibility Database!</h3>
-        <form action="/form-handler" method="POST">
-            <div>
-	        Our program focuses on finding matches using Myers-Briggs Personality Types
-	        and Astrological Signs. <br>
-            </div>
-            <div>
-		Please Log In: <br>
-	    </div>
-	    <div> Username: 
-	    </div>
-		<input type="text" name="username">
-	    <div> Password: 
-	    </div>
-		<input type="text" name="password"> <br> <br>
-            </div>
-            <input type="submit" value="submit">
-        </form>
-    </body>
+    
+<!DOCTYPE html>
+<html lang="en">
 
-    <!-- minimal styling -->
-    <style>
-        form {
-            margin: 1%;
-        }
+<head>
 
-        div {
-            margin: 1% 0;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <title>Dating Compatibility Database</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">DCD</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">Matches</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="bg-primary text-white">
+    <div class="container text-center">
+      
+      <h3>Welcome to the Dating Compatibility Database!</h3>
+      
+      <p class="lead">Our program focuses on finding matches using Myers-Briggs Personality Types
+	        and Astrological Signs. </p>
+    </div>
+  </div>
+
+  <section id="services" class="bg-light">
+    <form action="/form-handler" method="POST">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>Please Log In:</h2>
+          
+          <div> Username:</div>
+	  <input type="text" name="username">
+	  <div> Password: </div>
+	  <input type="text" name="password"> <br> <br>
+          <input type="submit" value="submit">
+        </div>
+        </div>
+     </div>
+     </form>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">DCD creaated by Mark Boutros, Rebecca Harris, Forum Modi, and Allison Russell</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
 </html>
+

@@ -23,29 +23,42 @@
     </style>
 
     <body>
+    <form action="/form-handler2" method="POST">
     
-    <h3> Potential Match </h3>
+    <h3> Your Profile </h3>
     
     <div>
-    Username: 
+    Username: {{username}}
     </div>
     <div>
-    Age: 
+    Age: {{age}}
     </div>
     <div>
-    Astrological Sign: 
+    Astrological Sign: {{astro_sign}}
     </div>
     <div>
-    Personality Type: 
+    Personality Type: {{pers_type}}
     </div>
     <div>
-    Description: 
-    </div>
-    <div>
-    Rating: 
+    Description: {{description}}
     </div>
     
+    <button type="submit" name="See Potential Matches">
+    <h3> Click here to see Potential Matches </h3>
+    </button>
+    
+    <h3> Matches </h3>
 	
+    <table>
+    	{%for row in matches%}
+    		<tr>
+    		{%for col in row%}
+    			<td>{{col}}</td>
+    		{%endfor%}
+    		</tr>
+    	{%endfor%}
+    </table>
+    </form>
 	
     </body>
 

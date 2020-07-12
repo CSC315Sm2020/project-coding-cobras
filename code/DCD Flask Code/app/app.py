@@ -162,7 +162,6 @@ def form():
     return render_template('login.html')
 
 
-
 # handle form data
 @app.route('/form-handler', methods=['POST'])
 def handle_data():
@@ -182,14 +181,35 @@ def handle_data():
         astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE fname=\'"+ username + "\')")
         pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE fname=\'"+ username + "\')")
         user_id = connectone("SELECT user_id FROM USER_ACCOUNT WHERE fname=\'"+ username + "\'")
+        user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE fname=\'"+ username + "\'")
+        user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE fname=\'"+ username + "\'")
     
         astro_sign = astro[0]
         pers_type = pers[0]
         userID = user_id[0]
-    
+        age = user_age[0]
+        description = user_description[0]
+        matches = []
+        
     	#loops from 1 to 20
         for PMID in range(1, 21):
             if (PMID != userID):
+                
+                GENDER_PREF = connectone("SELECT gender_pref FROM USER_ACCOUNT WHERE user_id=\'"+str(userID)+"\'")
+                PM_GENDER = connectone("SELECT gender FROM USER_ACCOUNT WHERE user_id=\'"+str(PMID)+"\'")
+                pm_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+str(PMID)+"\'")
+                USER_AGE_MIN = connectone("SELECT age_min FROM USER_ACCOUNT WHERE user_id=\'"+str(userID)+"\'")
+                USER_AGE_MAX = connectone("SELECT age_max FROM USER_ACCOUNT WHERE user_id=\'"+str(userID)+"\'")
+                
+                #cast string to int for comparison
+                PM_AGE = int(pm_age[0])
+                
+
+                
+                if ( (GENDER_PREF[0] != 'a' and PM_GENDER[0] != GENDER_PREF[0]) or PM_AGE >= USER_AGE_MAX[0] or PM_AGE <= USER_AGE_MIN[0]):
+                    connectnone("UPDATE POTENTIAL_MATCH SET MATCH_RATING =0" + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'")
+                    print("No match, move on") 
+                    continue
                 
                 #Calculates ASTRO Rating
                 PM_ASTRO = connectone("SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+str(PMID)+"\'")
@@ -204,17 +224,29 @@ def handle_data():
 	        
 	        #Trying to update the database
                 connectnone("UPDATE POTENTIAL_MATCH SET MATCH_RATING =" + str(MATCH_RATING) + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
-                PM = connect("SELECT * FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\'") 
+                user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+                pm_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(PMID) + "\' AND pm_id=\'" + str(userID)+"\'")
+                    
+                if (user_vote[0] == True and user_vote[0] == pm_vote[0]):
+                    match = connectone("SELECT fname, age, email FROM USER_ACCOUNT WHERE user_id=\'"+str(PMID)+"\'")
+                    matches.append(match)
 
 
     if (len(user) == 0): 
-    	user = ['Not a valid user']
-    	PM = ['None']
+    	matches = ['None']
+    	match_emails = []
     	astro_sign = "invalid"
     	pers_type = "invalid"
+    	description = "invalid"
     	userID = 0
+    	age = 0
     	
-    return render_template('user-matches.html', username=username, password=password, astro_sign = astro_sign, pers_type = pers_type, user=user, PM=PM)
+    return render_template('user-profile.html', username=username, password=password, astro_sign = astro_sign, pers_type = pers_type, matches=matches, description=description, age=age)
+
+
+@app.route('/form-handler2', methods=['POST'])
+def handle_data2():
+    return render_template('user-matches.html')
 
 if __name__ == '__main__':
     app.run(debug = True)
