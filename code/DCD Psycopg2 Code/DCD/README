@@ -1,0 +1,30 @@
+----
+IMPORTANT
+
+To run this example in the CSC 315 VM you first need to make
+the following one-time configuration changes:
+
+# install psycopg2 python package
+sudo apt-get update
+sudo apt-get install python3-psycopg2
+
+# set the postgreSQL password for user 'csc315sm20'
+sudo -u postgres psql
+    ALTER USER csc315sm20 PASSWORD 'csc315sm20';
+    \q
+----
+
+Usage:
+python3 7dbs.py 
+
+Purpose:
+Demonstrate Python connection to PostgreSQL using the psycopg
+adapter. Connects to the 7dbs database from "Seven Databases
+in Seven Days" in the CSC 315 VM.
+
+
+For psycopg documentation:
+https://www.psycopg.org/
+
+This example code is derived from:
+https://www.postgresqltutorial.com/postgresql-python/

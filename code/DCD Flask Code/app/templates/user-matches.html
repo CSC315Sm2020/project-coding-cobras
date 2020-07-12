@@ -1,0 +1,59 @@
+<!-- /templates/user-matches.html-->
+
+<html>
+    <head>
+        <title> Potential Matches </title>
+    </head>
+
+    <!-- Adding some style to table (OPTIONAL) -->
+    <style type="text/css">
+
+    th:tr{
+        color: blue;
+    }
+    tr:nth-of-type(2n){
+        border: 1px solid black;
+        background-color: rgba(150, 150, 150, 0.5);
+    }
+
+    td{
+        padding: 8px 8px;
+        border: 1px solid black;
+    }
+    </style>
+
+    <body>
+    
+    <h3> Your Profile </h3>
+    
+    <div>
+    Username: {{username}}
+    </div>
+    <div>
+    Password: {{password}}
+    </div>
+    <div>
+    Astrological Sign: {{astro_sign}}
+    </div>
+    <div>
+    Personality Type: {{pers_type}}
+    </div>
+    
+    
+    <table>
+    	{%for row in user%}
+    		<tr>
+    		{%for col in row%}
+    			<td>{{col}}</td>
+    		{%endfor%}
+    		</tr>
+    	{%endfor%}
+    </table>
+    
+    
+    <h3> Potential Matches </h3>
+	
+	
+    </body>
+
+</html>

@@ -1,0 +1,38 @@
+----
+IMPORTANT
+
+To run this example in the CSC 315 VM you first need to make
+the following one-time configuration changes:
+
+# install psycopg2 python package
+sudo apt-get update
+sudo apt-get install python3-psycopg2
+
+# set the postgreSQL password for user 'csc315sm20'
+sudo -u postgres psql
+    ALTER USER csc315sm20 PASSWORD 'csc315sm20';
+    \q
+
+# install flask
+sudo apt-get install python3-pip
+pip3 install flask
+# logout, then login again to inherit new shell environment
+----
+
+Usage:
+export FLASK_APP=app.py 
+flask run
+# then browse to http://127.0.0.1:5000/
+
+Purpose:
+Demonstrate Flask/Python to PostgreSQL using the psycopg
+adapter. Connects to the 7dbs database from "Seven Databases
+in Seven Days" in the CSC 315 VM.
+
+For psycopg documentation:
+https://www.psycopg.org/
+
+This example code is derived from:
+https://www.postgresqltutorial.com/postgresql-python/
+https://scoutapm.com/blog/python-flask-tutorial-getting-started-with-flask
+https://www.geeksforgeeks.org/python-using-for-loop-in-flask/
