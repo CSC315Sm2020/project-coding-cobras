@@ -47,9 +47,11 @@ https://www.geeksforgeeks.org/python-using-for-loop-in-flask/
 """
 
 import psycopg2
+import random
 from config import config
 from flask import Flask, render_template, request
- 
+from datetime import datetime
+
 def connect(query):
     """ Connect to the PostgreSQL database server """
     conn = None
@@ -246,7 +248,108 @@ def handle_data():
 
 @app.route('/form-handler2', methods=['POST'])
 def handle_data2():
-    return render_template('potential-matches.html')
+    random.seed(datetime.now()) 
+    username = request.form['username']
+    
+    user_id = connectone("SELECT user_id FROM USER_ACCOUNT WHERE fname=\'"+ username + "\'")
+    userID = user_id[0]
+    
+    NUM = connectone("SELECT count(*) FROM USER_ACCOUNT GROUP BY TRUE")
+    num = NUM[0]
+    
+    isPM = False
+    PMID = 0
+    rating = 0
+    
+    while (not (isPM)):
+        PMID = (random.randint(1,num))
+        
+        if (PMID == userID):
+            continue
+        
+        user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+        pm_rating = connectone("SELECT match_rating FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+        rating = pm_rating[0]
+        
+        if (rating==0):
+            continue
+        
+        USER_VOTE = user_vote[0]
+        
+        if (USER_VOTE == None):
+            isPM = True
+        
+
+    astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+    pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+    user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    
+    astro_sign = astro[0]
+    pers_type = pers[0] 
+    age = user_age[0]
+    description = user_description[0]
+    pm_name = PM_NAME[0]
+    
+
+    
+    return render_template('potential-matches.html', PMID=PMID, username=username, pers_type=pers_type, pm_name=pm_name, astro_sign=astro_sign, description=description, age=age, rating=rating)
+
+@app.route('/form-handler3', methods=['POST'])
+def handle_data3():
+    random.seed(datetime.now()) 
+    username = request.form['username']
+    vote = request.form['vote']
+    PMID = request.form['PM']
+    
+    user_id = connectone("SELECT user_id FROM USER_ACCOUNT WHERE fname=\'"+ username + "\'")
+    userID = user_id[0]
+    
+    if (vote!="Skip"):
+        connectnone("UPDATE POTENTIAL_MATCH SET votes =" + str(vote) + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+    
+    
+    NUM = connectone("SELECT count(*) FROM USER_ACCOUNT GROUP BY TRUE")
+    num = NUM[0]
+    
+    isPM = False
+    PMID = 0
+    rating = 0
+    
+    while (not (isPM)):
+        PMID = (random.randint(1,num))
+        
+        if (PMID == userID):
+            continue
+        
+        user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+        pm_rating = connectone("SELECT match_rating FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
+        rating = pm_rating[0]
+        
+        if (rating==0):
+            continue
+        
+        USER_VOTE = user_vote[0]
+        
+        if (USER_VOTE == None):
+            isPM = True
+        
+
+    astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+    pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+    user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    
+    astro_sign = astro[0]
+    pers_type = pers[0] 
+    age = user_age[0]
+    description = user_description[0]
+    pm_name = PM_NAME[0]
+    
+    return render_template('potential-matches.html', PMID=PMID, username=username, pers_type=pers_type, pm_name=pm_name, astro_sign=astro_sign, description=description, age=age, rating=rating)
+
 
 if __name__ == '__main__':
     app.run(debug = True)

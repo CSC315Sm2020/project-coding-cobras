@@ -23,30 +23,39 @@
     </style>
 
     <body>
+    <form action="/form-handler3" method="POST">
+    <h3> {{username}}'s Potential Matches </h3>
     
-    <h3> Potential Match </h3>
-    
     <div>
-    Username: 
+    Username: {{pm_name}}
     </div>
     <div>
-    Age: 
+    Age: {{age}}
     </div>
     <div>
-    Astrological Sign: 
+    Rating: {{rating}}
     </div>
     <div>
-    Personality Type: 
+    Astrological Sign: {{astro_sign}}
     </div>
     <div>
-    Description: 
+    Personality Type: {{pers_type}}
     </div>
     <div>
-    Rating: 
+    Description: {{description}}
     </div>
-    
-	
-	
+    <label for="vote">Choose Yes or No for this potential match:</label>
+    <select name="vote" id="vote">
+    <option value="True">Yes</option>
+    <option value="False">No</option>
+    <option value="Skip">Skip</option>
+    </select>
+    <br><br>
+    <input type="hidden" name="PM" value={{PMID}} />
+    <button type="submit" name="username", value={{username}}>
+    <h3> Next User </h3>
+    </button>	
+    </form>
     </body>
 
 </html>
