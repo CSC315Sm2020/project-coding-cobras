@@ -1,0 +1,35 @@
+<!-- /templates/user-matches.html-->
+
+<html>
+    <head>
+        <title> No more matches :( </title>
+    </head>
+
+    <!-- Adding some style to table (OPTIONAL) -->
+    <style>
+
+    body{
+        background-color: lightblue;
+    }
+   
+    .match-body{
+        padding:10px;
+    }
+    </style>
+
+    <body>
+        <div class="match-body">
+            <h2>No more matches to display :(</h2>
+            <br>
+            <br>
+            <form action="/form-handler" method="POST">
+                <button type="submit" name="login", value='return to login'>
+                    <h3> Return to login </h3>
+                </button>	
+            </form>
+        </div>
+
+        
+    </body>
+
+</html>
