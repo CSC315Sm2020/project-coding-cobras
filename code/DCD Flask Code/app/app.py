@@ -163,7 +163,6 @@ app = Flask(__name__)
 def form():
     return render_template('login.html')
 
-
 # handle form data
 @app.route('/form-handler', methods=['POST'])
 def handle_data():
@@ -177,6 +176,8 @@ def handle_data():
     pers = ["invalid"]
     user_id =[0]
     
+    NUM = connectone("SELECT count(*) FROM USER_ACCOUNT GROUP BY TRUE")
+    num = NUM[0]
     
     if (len(user) != 0):
         print("Valid user")  
@@ -194,7 +195,7 @@ def handle_data():
         matches = []
         
     	#loops from 1 to 20
-        for PMID in range(1, 21):
+        for PMID in range(1, num+1):
             if (PMID != userID):
                 
                 GENDER_PREF = connectone("SELECT gender_pref FROM USER_ACCOUNT WHERE user_id=\'"+str(userID)+"\'")
@@ -208,7 +209,7 @@ def handle_data():
                 
 
                 
-                if ( (GENDER_PREF[0] != 'a' and PM_GENDER[0] != GENDER_PREF[0]) or PM_AGE >= USER_AGE_MAX[0] or PM_AGE <= USER_AGE_MIN[0]):
+                if ( (GENDER_PREF[0] != 'a' and PM_GENDER[0] != GENDER_PREF[0]) or PM_AGE > USER_AGE_MAX[0] or PM_AGE < USER_AGE_MIN[0]):
                     connectnone("UPDATE POTENTIAL_MATCH SET MATCH_RATING =0" + " WHERE user_id=\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'")
                     print("No match, move on") 
                     continue
@@ -229,14 +230,16 @@ def handle_data():
                 user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
                 pm_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(PMID) + "\' AND pm_id=\'" + str(userID)+"\'")
                     
-                if (user_vote[0] == True and user_vote[0] == pm_vote[0]):
+                
+                    
+                if (user_vote[0] == True and pm_vote[0] == True):
                     match = connectone("SELECT fname, age, email FROM USER_ACCOUNT WHERE user_id=\'"+str(PMID)+"\'")
+                    print("Match made!" + str(match[0]))
                     matches.append(match)
 
 
     if (len(user) == 0): 
     	matches = ['None']
-    	match_emails = []
     	astro_sign = "invalid"
     	pers_type = "invalid"
     	description = "invalid"
@@ -261,11 +264,27 @@ def handle_data2():
     PMID = 0
     rating = 0
     
+    bucket_array = [False] * num
+    bucket_array[userID-1] = True
+    all_true = True
+    
     while (not (isPM)):
         PMID = (random.randint(1,num))
         
         if (PMID == userID):
             continue
+            
+        all_true = True
+        
+        for ID in range(0,num):
+            if (bucket_array[ID] == False):
+                all_true = False
+                break
+                
+        bucket_array[PMID-1] = True
+        
+        if (all_true == True):
+            break
         
         user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
         pm_rating = connectone("SELECT match_rating FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
@@ -279,20 +298,21 @@ def handle_data2():
         if (USER_VOTE == None):
             isPM = True
         
-
-    astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
-    pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
-    user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
-    PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
-    user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    if (all_true == False):
+        astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+        pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+        user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+        PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+        user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
     
-    astro_sign = astro[0]
-    pers_type = pers[0] 
-    age = user_age[0]
-    description = user_description[0]
-    pm_name = PM_NAME[0]
-    
-
+        astro_sign = astro[0]
+        pers_type = pers[0] 
+        age = user_age[0]
+        description = user_description[0]
+        pm_name = PM_NAME[0]
+        
+    if (all_true == True):
+       return render_template('no-matches.html')
     
     return render_template('potential-matches.html', PMID=PMID, username=username, pers_type=pers_type, pm_name=pm_name, astro_sign=astro_sign, description=description, age=age, rating=rating)
 
@@ -317,11 +337,27 @@ def handle_data3():
     PMID = 0
     rating = 0
     
+    bucket_array = [False] * num
+    bucket_array[userID-1] = True
+    all_true = False
+    
     while (not (isPM)):
         PMID = (random.randint(1,num))
         
         if (PMID == userID):
             continue
+            
+        all_true = True
+        
+        for ID in range(0,num):
+            if (bucket_array[ID] == False):
+                all_true = False
+                break
+                
+        bucket_array[PMID-1] = True
+        
+        if (all_true == True):
+            break
         
         user_vote = connectone("SELECT votes FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
         pm_rating = connectone("SELECT match_rating FROM POTENTIAL_MATCH WHERE user_id =\'" + str(userID) + "\' AND pm_id=\'" + str(PMID)+"\'") 
@@ -335,18 +371,21 @@ def handle_data3():
         if (USER_VOTE == None):
             isPM = True
         
-
-    astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
-    pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
-    user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
-    PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
-    user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+    if (all_true == False):
+        astro = connectone("SELECT sign_name FROM SIGN_REF WHERE sign_number = (SELECT astrological_sign FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+        pers = connectone("SELECT mbti_name FROM MBTI_REF WHERE mbti_number = (SELECT mb_type FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\')")
+        user_age = connectone("SELECT age FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+        PM_NAME = connectone("SELECT fname FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
+        user_description = connectone("SELECT description FROM USER_ACCOUNT WHERE user_id=\'"+ str(PMID) + "\'")
     
-    astro_sign = astro[0]
-    pers_type = pers[0] 
-    age = user_age[0]
-    description = user_description[0]
-    pm_name = PM_NAME[0]
+        astro_sign = astro[0]
+        pers_type = pers[0] 
+        age = user_age[0]
+        description = user_description[0]
+        pm_name = PM_NAME[0]
+        
+    if (all_true == True):
+       return render_template('no-matches.html')
     
     return render_template('potential-matches.html', PMID=PMID, username=username, pers_type=pers_type, pm_name=pm_name, astro_sign=astro_sign, description=description, age=age, rating=rating)
 
