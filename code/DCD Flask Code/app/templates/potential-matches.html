@@ -23,7 +23,7 @@
     </style>
 
     <body>
-    
+    <form action="/form-handler3" method="POST">
     <h3> {{username}}'s Potential Matches </h3>
     
     <div>
@@ -44,10 +44,18 @@
     <div>
     Description: {{description}}
     </div>
-
-    
-	
-	
+    <label for="vote">Choose Yes or No for this potential match:</label>
+    <select name="vote" id="vote">
+    <option value="True">Yes</option>
+    <option value="False">No</option>
+    <option value="Skip">Skip</option>
+    </select>
+    <br><br>
+    <input type="hidden" name="PM" value={{PMID}} />
+    <button type="submit" name="username", value={{username}}>
+    <h3> Next User </h3>
+    </button>	
+    </form>
     </body>
 
 </html>
