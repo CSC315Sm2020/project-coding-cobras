@@ -13,6 +13,7 @@
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="dcd.css">
 
 
   <title>Dating Compatibility Database</title>
@@ -48,35 +49,37 @@
       </div>
     </div>
   </nav>
-
-  <div class="bg-primary text-white">
-    <div class="container text-center">
-      
-      <h3>Welcome to the Dating Compatibility Database!</h3>
-      
-      <p class="lead">Our program focuses on finding matches using Myers-Briggs Personality Types
-	        and Astrological Signs. </p>
+  
+  <div class="login-body">
+  
+    <div class="bg-primary text-white">
+      <div class="container text-center">
+        
+        <h3>Welcome to the Dating Compatibility Database!</h3>
+        
+        <p class="lead">Our program focuses on finding matches using Myers-Briggs Personality Types
+            and Astrological Signs. </p>
+      </div>
     </div>
+
+    <section id="services" class="bg-light">
+      <form action="/form-handler" method="POST">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto form-area">
+            <h2>Please Log In:</h2>
+            <div> Username:</div>
+            <input type="text" name="username">
+            <div> Password: </div>
+            <input type="text" name="password"> <br> <br>
+            <input type="submit" value="submit">
+          </div>
+          </div>
+      </div>
+      </form>
+    </section>
+
   </div>
-
-  <section id="services" class="bg-light">
-    <form action="/form-handler" method="POST">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>Please Log In:</h2>
-          
-          <div> Username:</div>
-	  <input type="text" name="username">
-	  <div> Password: </div>
-	  <input type="text" name="password"> <br> <br>
-          <input type="submit" value="submit">
-        </div>
-        </div>
-     </div>
-     </form>
-  </section>
-
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
