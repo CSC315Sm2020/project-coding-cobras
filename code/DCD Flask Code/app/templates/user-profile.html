@@ -20,45 +20,51 @@
         padding: 8px 8px;
         border: 1px solid black;
     }
+    .prof-body{
+        padding:10px;
+    }
     </style>
 
     <body>
-    <form action="/form-handler2" method="POST">
+    <div class="prof-body">
+        <form action="/form-handler2" method="POST">
     
-    <h3> Your Profile </h3>
+            <h3> Your Profile </h3>
+            
+            <div>
+            Username: {{username}}
+            </div>
+            <div>
+            Age: {{age}}
+            </div>
+            <div>
+            Astrological Sign: {{astro_sign}}
+            </div>
+            <div>
+            Personality Type: {{pers_type}}
+            </div>
+            <div>
+            Description: {{description}}
+            </div>
+            
+            <button type="submit" name="username", value={{username}}>
+            <h3> Click here to see Potential Matches </h3>
+            </button>
+            
+            <h3> Matches </h3>
+            
+            <table>
+                {%for row in matches%}
+                    <tr>
+                    {%for col in row%}
+                        <td>{{col}}</td>
+                    {%endfor%}
+                    </tr>
+                {%endfor%}
+            </table>
+            </form>
+    </div>
     
-    <div>
-    Username: {{username}}
-    </div>
-    <div>
-    Age: {{age}}
-    </div>
-    <div>
-    Astrological Sign: {{astro_sign}}
-    </div>
-    <div>
-    Personality Type: {{pers_type}}
-    </div>
-    <div>
-    Description: {{description}}
-    </div>
-    
-    <button type="submit" name="username", value={{username}}>
-    <h3> Click here to see Potential Matches </h3>
-    </button>
-    
-    <h3> Matches </h3>
-	
-    <table>
-    	{%for row in matches%}
-    		<tr>
-    		{%for col in row%}
-    			<td>{{col}}</td>
-    		{%endfor%}
-    		</tr>
-    	{%endfor%}
-    </table>
-    </form>
 	
     </body>
 
