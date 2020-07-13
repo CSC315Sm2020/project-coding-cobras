@@ -246,7 +246,13 @@ def handle_data():
 
 @app.route('/form-handler2', methods=['POST'])
 def handle_data2():
-    return render_template('potential-matches.html')
+    username = request.form['username']
+    
+    num = connectone("SELECT count(*) FROM USER_ACCOUNT GROUP BY TRUE")
+    print(num)
+    
+    
+    return render_template('potential-matches.html', username=username)
 
 if __name__ == '__main__':
     app.run(debug = True)
