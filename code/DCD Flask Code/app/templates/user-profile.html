@@ -1,8 +1,10 @@
-<!-- /templates/user-matches.html-->
+<!DOCTYPE html>
+
+<!-- /templates/user-profile.html-->
 
 <html>
     <head>
-        <title> Potential Matches </title>
+        <title> Profile </title>
     </head>
 
     <!-- Adding some style to table (OPTIONAL) -->
@@ -20,8 +22,23 @@
         padding: 8px 8px;
         border: 1px solid black;
     }
+    body{
+        background-color: lightblue;
+    }
     .prof-body{
-        padding:10px;
+        padding:50px;
+    }
+
+    .prof-data{
+        background-color: white;
+        padding: 10px;
+        max-width: 33%;
+    }
+          
+    .match-area{
+        background-color: white;
+        padding: 10px;
+        max-width: 66%;
     }
     </style>
 
@@ -29,39 +46,47 @@
     <div class="prof-body">
         <form action="/form-handler2" method="POST">
     
-            <h3> Your Profile </h3>
-            
-            <div>
-            Username: {{username}}
+            <h2> Your Profile: </h2>
+            <hr>
+            <br>
+            <div class="prof-data">
+                <div>
+                Username: {{username}}
+                </div>
+                <div>
+                Age: {{age}}
+                </div>
+                <div>
+                Astrological Sign: {{astro_sign}}
+                </div>
+                <div>
+                Personality Type: {{pers_type}}
+                </div>
+                <div>
+                Description: {{description}}
+                </div>
             </div>
-            <div>
-            Age: {{age}}
-            </div>
-            <div>
-            Astrological Sign: {{astro_sign}}
-            </div>
-            <div>
-            Personality Type: {{pers_type}}
-            </div>
-            <div>
-            Description: {{description}}
-            </div>
+
+            <br>
             
             <button type="submit" name="username", value={{username}}>
-            <h3> Click here to see Potential Matches </h3>
+                <h3> Click here to see Potential Matches </h3>
             </button>
             
             <h3> Matches </h3>
-            
-            <table>
-                {%for row in matches%}
-                    <tr>
-                    {%for col in row%}
-                        <td>{{col}}</td>
+            <hr>
+            <div class="match-area">
+                <table>
+                    {%for row in matches%}
+                        <tr>
+                        {%for col in row%}
+                            <td>{{col}}</td>
+                        {%endfor%}
+                        </tr>
                     {%endfor%}
-                    </tr>
-                {%endfor%}
-            </table>
+                </table>
+            </div>
+            
             </form>
     </div>
     

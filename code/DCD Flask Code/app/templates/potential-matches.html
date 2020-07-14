@@ -1,4 +1,6 @@
-<!-- /templates/user-matches.html-->
+<!DOCTYPE html>
+
+<!-- /templates/potential-matches.html-->
 
 <html>
     <head>
@@ -20,42 +22,56 @@
         padding: 8px 8px;
         border: 1px solid black;
     }
+    body{
+        background-color: lightblue;
+    }
     .match-body{
-        padding:10px;
+        padding:50px;
+    }
+
+    .form-area{
+        padding: 10px;
+        max-width: 33%;
+        background-color: white;
     }
     </style>
 
     <body>
         <div class="match-body">
             <form action="/form-handler3" method="POST">
-                <h3> {{username}}'s Potential Matches </h3>
-                
-                <div>
-                Username: {{pm_name}}
+                <h2> {{username}}'s Potential Matches </h2>
+                <hr>
+                <br>
+                <div class="form-area">
+                    <div>
+                    Username: {{pm_name}}
+                    </div>
+                    <div>
+                    Age: {{age}}
+                    </div>
+                    <div>
+                    Rating: {{rating}}
+                    </div>
+                    <div>
+                    Astrological Sign: {{astro_sign}}
+                    </div>
+                    <div>
+                    Personality Type: {{pers_type}}
+                    </div>
+                    <div>
+                    Description: {{description}}
+                    </div>
+                    <label for="vote">Choose Yes or No for this potential match:</label>
+                    <select name="vote" id="vote">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                    <option value="Skip">Skip</option>
+                    </select>
+                    <br><br>
+                    <input type="hidden" name="PM" value={{PMID}} />
                 </div>
-                <div>
-                Age: {{age}}
-                </div>
-                <div>
-                Rating: {{rating}}
-                </div>
-                <div>
-                Astrological Sign: {{astro_sign}}
-                </div>
-                <div>
-                Personality Type: {{pers_type}}
-                </div>
-                <div>
-                Description: {{description}}
-                </div>
-                <label for="vote">Choose Yes or No for this potential match:</label>
-                <select name="vote" id="vote">
-                <option value="True">Yes</option>
-                <option value="False">No</option>
-                <option value="Skip">Skip</option>
-                </select>
-                <br><br>
-                <input type="hidden" name="PM" value={{PMID}} />
+                <br>
+
                 <button type="submit" name="username", value={{username}}>
                 <h3> Next User </h3>
                 </button>	
